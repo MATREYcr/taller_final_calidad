@@ -186,5 +186,11 @@ class LoanControllerTest {
         mockMvc.perform(get("/api/loans/9999"))
                 .andExpect(status().isNotFound());
     }
+    @Test
+    void markAsReturned_shouldReturn404WhenLoanNotFound() throws Exception {
+
+        mockMvc.perform(put("/api/loans/{id}/return", 9999L))
+                .andExpect(status().isNotFound());
+    }
 
 }
