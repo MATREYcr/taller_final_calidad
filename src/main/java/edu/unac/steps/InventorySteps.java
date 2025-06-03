@@ -67,7 +67,6 @@ public class InventorySteps {
         }
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//td[contains(text(),'Projector')]")));
-        System.out.println("DEBUG: Dispositivo 'Projector' registrado y visible en la tabla.");
     }
 
     @Given("the device is currently loaned to user Alice")
@@ -96,19 +95,16 @@ public class InventorySteps {
         userBorrowerInput.sendKeys("Alice");
 
         loanDeviceDropdown.selectByVisibleText("Projector (Multimedia)");
-        System.out.println("DEBUG: 'Projector' seleccionado del dropdown.");
 
         WebElement addLoanButton = wait.until(ExpectedConditions.elementToBeClickable(By.id("addLoanBtn")));
         addLoanButton.click();
-        System.out.println("DEBUG: Botón 'Add Loan' clickeado.");
     }
 
     @When("the user attempts to delete the device")
     public void the_user_attempts_to_delete_the_device() {
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("devicesTableBody")));
-        WebElement deleteButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//tr[td[text()='Projector']]/td/button[text()='Delete']")));
+        WebElement deleteButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//tbody[@id='devicesTableBody']/tr[td[2][text()='Projector']]/td[6]/button[text()='Delete']")));
         deleteButton.click();
-        System.out.println("DEBUG: Botón de eliminar para 'Projector' clickeado.");
     }
 
     @Then("the device should not be deleted")
@@ -121,7 +117,6 @@ public class InventorySteps {
 
         boolean deviceExists = driver.findElements(By.xpath("//td[contains(text(),'Projector')]")).size() > 0;
         Assert.assertTrue(deviceExists, "ERROR: El dispositivo 'Projector' fue eliminado, pero NO debía serlo.");
-        System.out.println("DEBUG: Verificado: El dispositivo 'Projector' NO fue eliminado.");
     }
 
     @Then("an error message Failed to delete device should be displayed")
@@ -129,6 +124,5 @@ public class InventorySteps {
         WebElement errorMsg = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("deviceMessage")));
         String actualMessage = errorMsg.getText().trim();
         Assert.assertEquals(actualMessage, "Failed to delete device", "ERROR: El mensaje de error no coincide.");
-        System.out.println("DEBUG: Mensaje de error verificado: '" + actualMessage + "'");
     }
 }

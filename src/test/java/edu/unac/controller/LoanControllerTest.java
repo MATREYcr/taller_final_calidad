@@ -108,7 +108,7 @@ class LoanControllerTest {
     @Test
     void testMarkAsReturned() throws Exception {
         Device device = new Device();
-        device.setName("Proyector");
+        device.setName("Projector");
         device.setStatus(DeviceStatus.LOANED);
         device.setAddedDate(System.currentTimeMillis());
         device = deviceRepository.save(device);
@@ -148,7 +148,7 @@ class LoanControllerTest {
     @Test
     void testRegisterLoanWithUnavailableDevice() throws Exception {
         Device device = new Device();
-        device.setName("Tablet F");
+        device.setName("Laptop");
         device.setStatus(DeviceStatus.LOANED);
         device.setAddedDate(System.currentTimeMillis());
         device = deviceRepository.save(device);
@@ -165,7 +165,7 @@ class LoanControllerTest {
     @Test
     void testMarkAsReturned_AlreadyReturned() throws Exception {
         Device device = new Device();
-        device.setName("Tablet G");
+        device.setName("Monitor");
         device.setStatus(DeviceStatus.LOANED);
         device.setAddedDate(System.currentTimeMillis());
         device = deviceRepository.save(device);
@@ -182,12 +182,12 @@ class LoanControllerTest {
     }
 
     @Test
-    void testGetLoanById_NotFound() throws Exception {
+    void testGetLoan_NotFound() throws Exception {
         mockMvc.perform(get("/api/loans/9999"))
                 .andExpect(status().isNotFound());
     }
     @Test
-    void markAsReturned_shouldReturn404WhenLoanNotFound() throws Exception {
+    void markAsReturned_NotFound() throws Exception {
 
         mockMvc.perform(put("/api/loans/{id}/return", 9999L))
                 .andExpect(status().isNotFound());
