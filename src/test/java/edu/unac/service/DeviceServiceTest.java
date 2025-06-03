@@ -26,7 +26,7 @@ class DeviceServiceTest {
     }
 
     @Test
-    void registerDevice_validDevice_shouldSetStatusAndSave() {
+    void registerDevice() {
         Device input = new Device();
         input.setName("Laptop");
         input.setType("Electronics");
@@ -54,7 +54,7 @@ class DeviceServiceTest {
     }
 
     @Test
-    void registerDevice_invalidName_shouldThrowException() {
+    void registerDevice_invalidName() {
         Device input = new Device();
         input.setName("AB");
 
@@ -65,7 +65,7 @@ class DeviceServiceTest {
     }
 
     @Test
-    void getAllDevices_shouldReturnList() {
+    void getAllDevices() {
         List<Device> devices = Arrays.asList(new Device(), new Device());
         when(deviceRepository.findAll()).thenReturn(devices);
 
@@ -76,7 +76,7 @@ class DeviceServiceTest {
     }
 
     @Test
-    void getDeviceById_shouldReturnDevice() {
+    void getDeviceById() {
         Device device = new Device();
         device.setId(1L);
         when(deviceRepository.findById(1L)).thenReturn(Optional.of(device));
@@ -88,7 +88,7 @@ class DeviceServiceTest {
     }
 
     @Test
-    void updateDeviceStatus_existingDevice_shouldUpdateStatus() {
+    void updateDeviceStatus() {
         Device device = new Device();
         device.setId(1L);
         device.setStatus(DeviceStatus.AVAILABLE);
@@ -103,7 +103,7 @@ class DeviceServiceTest {
     }
 
     @Test
-    void updateDeviceStatus_deviceNotFound_shouldThrowException() {
+    void updateDeviceStatus_deviceNotFound() {
         when(deviceRepository.findById(99L)).thenReturn(Optional.empty());
 
         Exception exception = assertThrows(IllegalArgumentException.class, () ->
@@ -112,14 +112,14 @@ class DeviceServiceTest {
     }
 
     @Test
-    void updateDeviceStatus_deviceNotFound_shouldThrowExceptionNoName() {
+    void updateDeviceStatus_ThrowExceptionNoName() {
         Exception exception = assertThrows(IllegalArgumentException.class, () ->
                 deviceService.registerDevice(new Device()));
         assertEquals("Device name must be at least 3 characters long", exception.getMessage());
     }
 
     @Test
-    void deleteDevice_withLoanHistory_shouldThrowException() {
+    void deleteDevice_withLoanHistory() {
         when(deviceRepository.existsLoanByDeviceId(1L)).thenReturn(true);
 
         Exception exception = assertThrows(IllegalStateException.class, () ->
@@ -129,7 +129,7 @@ class DeviceServiceTest {
     }
 
     @Test
-    void deleteDevice_noLoanHistory_shouldDeleteDevice() {
+    void deleteDevice() {
         when(deviceRepository.existsLoanByDeviceId(1L)).thenReturn(false);
 
         deviceService.deleteDevice(1L);
